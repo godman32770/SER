@@ -1,14 +1,15 @@
+import streamlit as st
+# Set the layout to wide
+st.set_page_config(layout="wide")
 from feature import *
 from Webfunc import *
-import streamlit as st
 import soundfile as sf
 import io
 import numpy as np
 import librosa
 import streamlit as st
 
-# Set the layout to wide
-st.set_page_config(layout="wide")
+
 # Define the mapping from gender-specific labels to generic emotion labels
 
 # Define class labels
