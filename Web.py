@@ -47,7 +47,7 @@ with col2:
     st.title("Speech Emotion Recognition")
 
     # Display an image
-    st.image("f:/download.jfif", caption="Speech Emotion Recognition")
+    st.image("https://images.unsplash.com/photo-1561446289-4112a4f79116?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", caption="Speech Emotion Recognition")
 
     st.markdown("<h1 style='font-size:32px;'>Upload an audio file (WAV format) to predict.</h1>", unsafe_allow_html=True)
 
