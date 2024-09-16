@@ -1,6 +1,6 @@
 import streamlit as st
 # Use a flag to control page config
-if 'skip_page_config' not in globals():
+def set_page_configuration():
     st.set_page_config(layout="wide")
 from feature import *
 from Webfunc import *
@@ -11,7 +11,7 @@ import librosa
 import streamlit as st
 
 sample_rate = 22050
-
+set_page_configuration()
 # Define the mapping from gender-specific labels to generic emotion labels
 
 # Define class labels
