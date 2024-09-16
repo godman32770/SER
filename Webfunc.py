@@ -1,3 +1,7 @@
+# Set a global flag to skip page config
+global skip_page_config
+skip_page_config = True
+from Web import *
 from Web import *
 from feature import *
 import sounddevice as sd
