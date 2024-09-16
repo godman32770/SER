@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import streamlit as st
 import joblib
-
+import requests
 class_labels = ['angry', 'calm', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
 label_mapping = {
@@ -207,71 +207,80 @@ def preprocess_and_predict_boosting(file_path, loaded_model, window_length=2, ho
     return emotion_percentages
 
 
+# Function to download the model with progress bar
+def download_model_from_gdrive(gdrive_url, output_name):
+    with st.spinner('Downloading model...'):
+        # Get file size from the headers
+        response = requests.get(gdrive_url, stream=True)
+        total_size = int(response.headers.get('content-length', 0))
+        
+        block_size = 1024  # 1 Kilobyte
+        progress_bar = st.progress(0)
+        downloaded_size = 0
+
+        with open(output_name, 'wb') as f:
+            for data in response.iter_content(block_size):
+                f.write(data)
+                downloaded_size += len(data)
+                progress = downloaded_size / total_size
+                progress_bar.progress(progress)
+
+        progress_bar.empty()  # Remove the progress bar after download completes
+
 def predict_with_xgboost(file_path):
-    xgb_model = joblib.load('F:/Newfemmaledata/xgb_model_augment2_malefemale.joblib')
-    loaded_model = joblib.load("F:/Newfemmaledata/xgb_model_augment2_malefemale.joblib")
-    emotion_percentages = preprocess_and_predict_boosting(file_path,loaded_model)
+    gdrive_url = 'https://drive.google.com/uc?id=1VgXhAJF44uJog7b72zUD6lNMTUF-KV7i'  # Replace with actual model file ID
+    model_path = 'xgb_model_augment2_malefemale.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    xgb_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict_boosting(file_path, xgb_model)
     return emotion_percentages
-    '''
-    features = preprocess_for_model(file_path)
-    features = np.expand_dims(features, axis=0)      
-    # Get probabilities
-    probabilities = xgb_model.predict_proba(features)    
-    # Ensure probabilities are aggregated correctly
-    avg_probabilities = np.mean(probabilities, axis=0)    
-    emotion_percentages = {class_labels[i]: avg_probabilities[i] * 100 for i in range(len(class_labels))}    
-    return emotion_percentages
-    '''
 
 def predict_with_lgbm(file_path):
-    lgbm_model = joblib.load('F:/Newfemmaledata/lgbm_model_augment2_malefemale.joblib')
-    loaded_model = joblib.load("F:/Newfemmaledata/lgbm_model_augment2_malefemale.joblib")
-    emotion_percentages = preprocess_and_predict_boosting(file_path,loaded_model)
+    gdrive_url = 'https://drive.google.com/uc?id=1NcxOhuqoYNs0QQF6uoVQbd1ej7gffFgX'
+    model_path = 'lgbm_model_augment2_malefemale.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    lgbm_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict_boosting(file_path, lgbm_model)
     return emotion_percentages
-    '''
-    features = preprocess_for_model(file_path)
-    features = np.expand_dims(features, axis=0)
-    # Get probabilities
-    probabilities = lgbm_model.predict_proba(features)
-    avg_probabilities = np.mean(probabilities, axis=0)
-    emotion_percentages = {class_labels[i]: avg_probabilities[i] * 100 for i in range(len(class_labels))}
-    return emotion_percentages
-    '''
 
 def predict_with_ensemble(file_path):
-    ensemble_model = joblib.load('F:/Newfemmaledata/ensemble.joblib')
-    loaded_model = joblib.load("F:/Newfemmaledata/ensemble.joblib")
-    emotion_percentages = preprocess_and_predict_boosting(file_path,loaded_model)
+    gdrive_url = 'https://drive.google.com/uc?id=10_ngMpFdqM_ba_Igqoqhl8u7ahNoJY1d'
+    model_path = 'ensemble.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    ensemble_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict_boosting(file_path,ensemble_model)
     return emotion_percentages
-    '''
-    features = preprocess_for_model(file_path)
-    features = np.expand_dims(features, axis=0)
-    # Get probabilities
-    probabilities = ensemble_model.predict_proba(features)
-    avg_probabilities = np.mean(probabilities, axis=0)
-    emotion_percentages = {class_labels[i]: avg_probabilities[i] * 100 for i in range(len(class_labels))}
-    return emotion_percentages
-    '''
 
 def predict_with_cnn(file_path):
-    
-    loaded_model = joblib.load("F:/Newfemmaledata/cnn.joblib")
-    emotion_percentages = preprocess_and_predict(file_path,loaded_model)
+    gdrive_url = 'https://drive.google.com/uc?id=1cMfMlzSDO0LYD09k905YkfGaUOhaHgRq'
+    model_path = 'cnn.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    cnn_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict(file_path,cnn_model)
     return emotion_percentages
 
 def predict_with_vggnet(file_path):
-    loaded_model = joblib.load("F:/Newfemmaledata/vgg.joblib")
-    emotion_percentages = preprocess_and_predict(file_path,loaded_model)   
+    gdrive_url = 'https://drive.google.com/uc?id=1ADmg6vX9NwbB7Wnfp-_s7h3UYLCbDlHq'
+    model_path = 'vgg.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    vgg_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict(file_path,vgg_model)   
     return emotion_percentages
 
 def predict_with_resnet(file_path):
-    loaded_model = joblib.load("F:/Newfemmaledata/resnet.joblib")
-    emotion_percentages = preprocess_and_predict(file_path,loaded_model)
+    gdrive_url = 'https://drive.google.com/uc?id=1hRUO48dCvabxiKEUSeWPJlKetdjossO1'
+    model_path = 'resnet.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    resnet_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict(file_path,resnet_model)
     return emotion_percentages
 
 def predict_with_densenet(file_path):
-    loaded_model = joblib.load("F:/Newfemmaledata/densenet.joblib")
-    emotion_percentages = preprocess_and_predict(file_path,loaded_model)
+    gdrive_url = 'https://drive.google.com/uc?id=1AtYZZv4YvY3YVDx6aD5IVNi69F1NqM'
+    model_path = 'densenet.joblib'
+    download_model_from_gdrive(gdrive_url, model_path)
+    dense_model = joblib.load(model_path)
+    emotion_percentages = preprocess_and_predict(file_path,dense_model)
     return emotion_percentages
 
 
