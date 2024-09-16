@@ -1,6 +1,8 @@
 import streamlit as st
-# Set the layout to wide
-st.set_page_config(layout="wide")
+
+if 'skip_page_config' not in globals():
+    st.set_page_config(layout="wide")
+
 from feature import *
 from Webfunc import *
 import soundfile as sf
