@@ -1,8 +1,7 @@
 import streamlit as st
-
-if 'skip_page_config' not in globals():
+def set_page_config():
     st.set_page_config(layout="wide")
-
+set_page_config()
 from feature import *
 from Webfunc import *
 import soundfile as sf
@@ -11,6 +10,7 @@ import numpy as np
 import librosa
 import streamlit as st
 
+sample_rate = 22050
 
 # Define the mapping from gender-specific labels to generic emotion labels
 
@@ -145,9 +145,6 @@ with col3:
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
 
-import tensorflow
-print(tensorflow.__version__)
-sample_rate = 22050
 
 
 
