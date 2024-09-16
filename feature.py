@@ -1,6 +1,9 @@
 import librosa
 import numpy as np
 from collections import Counter
+# Set a global flag to skip page config
+global skip_page_config
+skip_page_config = True
 from Web import *
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
