@@ -228,24 +228,24 @@ def download_model_from_gdrive(gdrive_url, output_name):
         progress_bar.empty()  # Remove the progress bar after download completes
 
 def predict_with_xgboost(file_path):
-    gdrive_url = 'https://drive.google.com/uc?id=1VgXhAJF44uJog7b72zUD6lNMTUF-KV7i'  # Replace with actual model file ID
-    model_path = 'xgb_model_augment2_malefemale.joblib'
+    gdrive_url = 'https://drive.google.com/uc?id=190_XdT_4ibvnRGI_zXZCSVPbiK720qne'  # Replace with actual model file ID
+    model_path = 'xgb_model_augment2_optuna_malefemale.joblib'
     download_model_from_gdrive(gdrive_url, model_path)
     xgb_model = joblib.load(model_path)
     emotion_percentages = preprocess_and_predict_boosting(file_path, xgb_model)
     return emotion_percentages
 
 def predict_with_lgbm(file_path):
-    gdrive_url = 'https://drive.google.com/uc?id=1NcxOhuqoYNs0QQF6uoVQbd1ej7gffFgX'
-    model_path = 'lgbm_model_augment2_malefemale.joblib'
+    gdrive_url = 'https://drive.google.com/uc?id=1KO_4F4XVq-62cMbvdJwgdpjOL8H_pHWC'
+    model_path = 'lgbm_model_augment2_malefemale_optuna.joblib'
     download_model_from_gdrive(gdrive_url, model_path)
     lgbm_model = joblib.load(model_path)
     emotion_percentages = preprocess_and_predict_boosting(file_path, lgbm_model)
     return emotion_percentages
 
 def predict_with_ensemble(file_path):
-    gdrive_url = 'https://drive.google.com/uc?id=10_ngMpFdqM_ba_Igqoqhl8u7ahNoJY1d'
-    model_path = 'ensemble.joblib'
+    gdrive_url = 'https://drive.google.com/uc?id=15qGBkf-To5HAsSW88Nyz-72kzJes65pX'
+    model_path = 'ensemble_optuna.joblib'
     download_model_from_gdrive(gdrive_url, model_path)
     ensemble_model = joblib.load(model_path)
     emotion_percentages = preprocess_and_predict_boosting(file_path,ensemble_model)
